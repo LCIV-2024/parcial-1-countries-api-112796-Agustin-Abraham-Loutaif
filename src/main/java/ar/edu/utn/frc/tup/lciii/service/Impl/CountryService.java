@@ -95,6 +95,7 @@ public class CountryService{
 
         public List<CountryDTO> postCountries(Integer amount){
                 List<CountryDTO> countryDTOList = getAllCountriesDto();
+                List<CountryDTO> newCountries = new ArrayList<>();
                 Integer totalNewCountries = 0;
 
                 for (int i = 0; i < countryDTOList.size(); i++){
@@ -104,11 +105,14 @@ public class CountryService{
                         CountryDtoEntity checkCountry = countryRepository.findById(entity.getName());
                         if (checkCountry != null){
                                 countryRepository.save(entity);
+                                newCountries.add(countryDTOList.get(i));
                                 totalNewCountries = totalNewCountries + 1;
                         }
 
                         if (totalNewCountries == amount) break;
                 }
+
+                return newCountries;
         }
 
         /**
